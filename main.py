@@ -1,6 +1,4 @@
-import pygame 
-pygame.init()
-import pygame, random 
+import pygame, random, sys
 pygame.init()
 # Riker: ALIEN CLASS
 class Alien(pygame.sprite.Sprite):
