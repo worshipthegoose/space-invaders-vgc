@@ -1,6 +1,14 @@
-"GLOBAL: Imports and Initialization"
+"GLOBAL: Imports and Initialization + Fill Display"
 import pygame, random, sys
 pygame.init()
+WINDOW_WIDTH = 1200
+WINDOW_HEIGHT = 700
+display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+pygame.display.set_caption("Space Invaders...")
+
+#Set FPS and clock
+FPS = 60
+clock = pygame.time.Clock()
 "Riker: ALIEN CLASS"
 class Alien(pygame.sprite.Sprite):
     def __init__(self, x, y, velocity, bullet_group):
