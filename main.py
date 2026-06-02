@@ -1,6 +1,7 @@
+"GLOBAL: Imports and Initialization"
 import pygame, random, sys
 pygame.init()
-# Riker: ALIEN CLASS
+"Riker: ALIEN CLASS"
 class Alien(pygame.sprite.Sprite):
     def __init__(self, x, y, velocity, bullet_group):
         super().__init__()
@@ -25,7 +26,22 @@ class Alien(pygame.sprite.Sprite):
         def reset(self):
             self.rect.topleft = (self.starting_x, self.starting_y)
             self.direction = 1
-# Riker: MAIN game loop
+"Riker: Create Bullets"
+my_player_bullet_group = pygame.sprite.Group()
+my_alien_bullet_group = pygame.sprite.Group()
+
+#Create a player group and Player object
+my_player_group = pygame.sprite.Group()
+my_player = Player(my_player_bullet_group)
+my_player_group.add(my_player)
+
+#Create an alien group.  Will add Alien objects via the game's start new round method
+my_alien_group = pygame.sprite.Group()
+
+#Create a Game object
+my_game = Game(my_player, my_alien_group, my_player_bullet_group, my_alien_bullet_group)
+my_game.start_new_round()
+"Riker: MAIN game loop"
 def main():
     global display_surface
     BLACK = (0, 0, 0)
