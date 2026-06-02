@@ -1,4 +1,4 @@
-# space-invaders: The Goose's Holy Space Invaders
+# Space Invaders: Video Game Creation
 ## Welcome
-Welcome to the The Goose's Holy Space Invaders! Worship or else...
-Lol
+The Goose is great.
+
