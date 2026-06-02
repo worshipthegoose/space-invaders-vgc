@@ -1,4 +1,4 @@
 # Space Invaders: Video Game Creation
 ## Welcome
-The Goose is great.
+Final project. The Goose is awesome.
 
