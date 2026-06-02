@@ -79,3 +79,34 @@ def main():
 if __name__ == "__main__":
     main()
 pygame.quit() # Quits pygame.
+
+
+
+class Player(pygame.sprite.Sprite):
+    """A class to model a spaceship the user can controll"""
+    def __init__(self, bullet_group):
+        """Initialize the player"""
+        super().__init__()
+        self.image = pygame.image.load("player_ship.png")
+        self.rect = self.image.get_rect()
+        self.rect.centerx = WINDOW_WIDTH//2
+        self.rect.bottom = WINDOW_HEIGHT
+        self.lives = 5
+        self.velocity = 8
+        self.bullet_group = bullet_group
+        self.shoot_sound = pygame.mixer.Sound("player_fire.wav")
+    def update(self):
+        """Update the player"""
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT] and self.rect.left > 0:
+            self.rect.x -= self.velocity
+        if keys[pygame.K_RIGHT] and self.rect.right < WINDOW_WIDTH:
+            self.rect.x += self.velocity
+    def fire(self):
+        """Fire a bullet"""
+        if len(self.bullet_group) < 2:
+            self.shoot_sound.play()
+            PlayerBullet(self.rect.centerx, self.rect.top, self.bullet_group)
+    def reset(self):
+        """Reset the players position"""
+        self.rect.centerx = WINDOW_WIDTH//2
