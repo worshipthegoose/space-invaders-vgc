@@ -1,3 +1,4 @@
+"GLOBAL: Imports and Initialization + Fill Display"
 import pygame
 pygame.init()
 WINDOW_WIDTH = 1200
@@ -5,13 +6,7 @@ WINDOW_HEIGHT = 700
 display_surface = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
 pygame.display.set_caption("Space Invaders")
 FPS = 60
-clock - pygame.time.Clock()"GLOBAL: Imports and Initialization + Fill Display"
-import pygame, random, sys
-pygame.init()
-WINDOW_WIDTH = 1200
-WINDOW_HEIGHT = 700
-display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption("Space Invaders...")
+clock = pygame.time.Clock()
 
 "Riker: ALIEN CLASS"
 class Alien(pygame.sprite.Sprite):
@@ -65,6 +60,35 @@ class AlienBullet (pygame.sprite.Sprite):
         self.rect.y += self.velocity
         if self.rect.top > WINDOW_HEIGHT:
             self.kill()
+
+class Player(pygame.sprite.Sprite):
+    """A class to model a spaceship the user can control"""
+    def __init__(self, bullet_group):
+        """Initialize the player"""
+        super().__init__()
+        self.image = pygame.image.load("player_ship.png")
+        self.rect = self.image.get_rect()
+        self.rect.centerx = WINDOW_WIDTH//2
+        self.rect.bottom = WINDOW_HEIGHT
+        self.lives = 5
+        self.velocity = 8
+        self.bullet_group = bullet_group
+        self.shoot_sound = pygame.mixer.Sound("player_fire.wav")
+    def update(self):
+        """Update the player"""
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT] and self.rect.left > 0:
+            self.rect.x -= self.velocity
+        if keys[pygame.K_RIGHT] and self.rect.right < WINDOW_WIDTH:
+            self.rect.x += self.velocity
+    def fire(self):
+        """Fire a bullet"""
+        if len(self.bullet_group) < 2:
+            self.shoot_sound.play()
+            PlayerBullet(self.rect.centerx, self.rect.top, self.bullet_group)
+    def reset(self):
+        """Reset the players position"""
+        self.rect.centerx = WINDOW_WIDTH//2
 "Riker: Create Bullets"
 my_player_bullet_group = pygame.sprite.Group()
 my_alien_bullet_group = pygame.sprite.Group()
@@ -111,33 +135,3 @@ if __name__ == "__main__":
     main()
 pygame.quit() # Quits pygame.
 
-
-
-class Player(pygame.sprite.Sprite):
-    """A class to model a spaceship the user can controll"""
-    def __init__(self, bullet_group):
-        """Initialize the player"""
-        super().__init__()
-        self.image = pygame.image.load("player_ship.png")
-        self.rect = self.image.get_rect()
-        self.rect.centerx = WINDOW_WIDTH//2
-        self.rect.bottom = WINDOW_HEIGHT
-        self.lives = 5
-        self.velocity = 8
-        self.bullet_group = bullet_group
-        self.shoot_sound = pygame.mixer.Sound("player_fire.wav")
-    def update(self):
-        """Update the player"""
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT] and self.rect.left > 0:
-            self.rect.x -= self.velocity
-        if keys[pygame.K_RIGHT] and self.rect.right < WINDOW_WIDTH:
-            self.rect.x += self.velocity
-    def fire(self):
-        """Fire a bullet"""
-        if len(self.bullet_group) < 2:
-            self.shoot_sound.play()
-            PlayerBullet(self.rect.centerx, self.rect.top, self.bullet_group)
-    def reset(self):
-        """Reset the players position"""
-        self.rect.centerx = WINDOW_WIDTH//2
