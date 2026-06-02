@@ -1,4 +1,11 @@
-"GLOBAL: Imports and Initialization + Fill Display"
+import pygame
+pygame.init()
+WINDOW_WIDTH = 1200
+WINDOW_HEIGHT = 700
+display_surface = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
+pygame.display.set_caption("Space Invaders")
+FPS = 60
+clock - pygame.time.Clock()"GLOBAL: Imports and Initialization + Fill Display"
 import pygame, random, sys
 pygame.init()
 WINDOW_WIDTH = 1200
@@ -6,9 +13,6 @@ WINDOW_HEIGHT = 700
 display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("Space Invaders...")
 
-#Set FPS and clock
-FPS = 60
-clock = pygame.time.Clock()
 "Riker: ALIEN CLASS"
 class Alien(pygame.sprite.Sprite):
     def __init__(self, x, y, velocity, bullet_group):
@@ -34,6 +38,33 @@ class Alien(pygame.sprite.Sprite):
         def reset(self):
             self.rect.topleft = (self.starting_x, self.starting_y)
             self.direction = 1
+class PlayerBullet (pygame.sprite.Sprite):
+    def __init__(self,x,y, bullet_group):
+        super().__init__()
+        self.image = pygame.image.load("green_laser.png")
+        self.rect = self.image.get_rect()
+        self.rect.centerx = x
+        self.rect.centery = y
+        self.velocity = 10
+        bullet_group.add(self)
+    def update(self):
+        self.rect.y -= self.velocity
+        if self.rect.bottom < 0:
+            self.kill()
+
+class AlienBullet (pygame.sprite.Sprite):
+    def __init__(self,x,y, bullet_group):
+        super().__init__()
+        self.image = pygame.image.load("red_laser.png")
+        self.rect = self.image.get_rect()
+        self.rect.centerx = x
+        self.rect.centery = y
+        self.velocity = 10
+        bullet_group.add(self)
+    def update(self):
+        self.rect.y += self.velocity
+        if self.rect.top > WINDOW_HEIGHT:
+            self.kill()
 "Riker: Create Bullets"
 my_player_bullet_group = pygame.sprite.Group()
 my_alien_bullet_group = pygame.sprite.Group()
